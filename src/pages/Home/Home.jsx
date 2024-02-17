@@ -8,6 +8,7 @@ import {
   IonContent,
 } from "@ionic/react";
 import React from "react";
+import Button from "../../components/atoms/Button";
 
 export default function Home() {
   return (
@@ -20,7 +21,10 @@ export default function Home() {
       <IonContent>
         <div className="bg-black text-white">Hello</div>
         <IonDatetime></IonDatetime>
-        <IonButton fill="clear">Start</IonButton>
+        <IonButton fill="clear" className="mt-10">
+          Start
+        </IonButton>
+        <Button disabled className="mt-[100px]" />
       </IonContent>
     </IonPage>
   );
