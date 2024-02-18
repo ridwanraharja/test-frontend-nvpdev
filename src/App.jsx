@@ -21,6 +21,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import { Route } from "react-router-dom";
 import Menu from "./components/organisms/Menu";
 import Home from "./pages/Home";
+import Users from "./pages/Users";
 
 setupIonicReact();
 
@@ -58,6 +59,7 @@ function App() {
             />
             <Route path="/" component={HomeOrTutorial} exact /> */}
                 <Route path="/" exact component={Home} />
+                <Route path="/users" component={Users} />
               </IonRouterOutlet>
             </IonSplitPane>
             {/* <Route path="/about" exact component={About} /> */}
