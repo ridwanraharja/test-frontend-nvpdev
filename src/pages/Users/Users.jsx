@@ -14,19 +14,23 @@ import {
   IonAvatar,
   IonLabel,
   IonNote,
-  IonLoading,
   IonSpinner,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 
-import Button from "../../components/atoms/Button";
 import { getUsers } from "../../redux/features/thunks/users/usersThunk";
+import {
+  calculateAgeInTenYears,
+  calculateCurrentAge,
+} from "../../utils/helper";
 
 export default function Users() {
   // Redux hooks
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
   const loading = useSelector((state) => state.users.loading);
-  const error = useSelector((state) => state.users.error);
+
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -39,8 +43,12 @@ export default function Users() {
     }
   }, [users]);
 
+  /**
+   * Generate and add new items to the existing items list
+   */
   const generateItems = () => {
     const newItems = [];
+
     const startIndex = items.length;
     const endIndex = startIndex + 10;
     for (let i = startIndex; i < endIndex && i < users.length; i++) {
@@ -49,26 +57,17 @@ export default function Users() {
     setItems([...items, ...newItems]);
   };
 
-  // calculates the age of the person 10 years from now using date-fns library
-  const calculateAge = (birthDate) => {
-    const today = new Date();
-
-    const futureDate = new Date(
-      today.getFullYear() + 10,
-      today.getMonth(),
-      today.getDate()
-    );
-
-    return differenceInYears(futureDate, parseISO(birthDate));
-  };
-
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader className="ion-no-border">
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton></IonMenuButton>
+          </IonButtons>
           <IonTitle>All Users</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent>
         {loading && (
           <div className="flex justify-center items-center h-full">
@@ -86,11 +85,8 @@ export default function Users() {
                 {item.firstName}
               </IonLabel>
               <IonNote slot="end">
-                <div>
-                  Current Age:{" "}
-                  {differenceInYears(new Date(), parseISO(item.birthDate))}
-                </div>
-                <div>In 10 years: {calculateAge(item.birthDate)}</div>
+                <div>Current Age: {calculateCurrentAge(item.birthDate)}</div>
+                <div>In 10 years: {calculateAgeInTenYears(item.birthDate)}</div>
               </IonNote>
             </IonItem>
           ))}
